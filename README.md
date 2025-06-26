@@ -249,6 +249,6 @@ This project showcases an end-to-end deep learning pipeline: dataset processing,
 
 ## 📧 Contact
 
-* **Name**: NAVYA SRI
-* **Email**: [navyasrichillapalli@gmail.com](mailto:navyasrichillapalli@gmail.com)
-* **GitHub**: [github.com/navyasri0515](https://github.com/navyasri0515)
+* **Name**: SRAVANTHI
+* **Email**: [chillapallisravanthi91@gmail.com](mailto:chillapallisravanthi91@gmail.com)
+* **GitHub**: [github.com/srave2513](https://github.com/srave2513)
