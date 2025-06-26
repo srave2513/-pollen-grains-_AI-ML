@@ -84,8 +84,8 @@ Input -> Conv2D(16) -> MaxPool ->
        Flatten -> Dropout(0.2) ->
        Dense(500) -> Dense(150) -> 
        Dense(23, Softmax)
+'''
 Input Image Size: 128x128
----
 Activation: ReLU
 
 Output: 23 Classes
