@@ -84,7 +84,7 @@ Input -> Conv2D(16) -> MaxPool ->
        Flatten -> Dropout(0.2) ->
        Dense(500) -> Dense(150) -> 
        Dense(23, Softmax)
-'''
+```
 Input Image Size: 128x128
 Activation: ReLU
 
@@ -97,17 +97,17 @@ Total Params: ~4.2M
 
 git clone https://github.com/yourusername/Pollen-Profiling.git
 cd Pollen-Profiling
-2️⃣ Create Environment & Install Dependencies
+# 2️⃣ Create Environment & Install Dependencies
 
 conda create -n pollen_env python=3.8
 conda activate pollen_env
 pip install -r requirements.txt
-3️⃣ Run the Flask Application
+# 3️⃣ Run the Flask Application
 
 python app.py
 Open http://127.0.0.1:5000 in your browser.
 
-📊 Image Preprocessing & Augmentation
+# 📊 Image Preprocessing & Augmentation
 
 def process_img(img, size=(128,128)):
     img = cv2.resize(img, size)
