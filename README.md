@@ -1,197 +1,254 @@
-# 🌼 Pollen's Profiling: Automated Classification Of Pollen Grains
+# Pollen's Profiling: Automated Classification of Pollen Grains
 
-## 🚀 Overview
+## 📌 Project Overview
 
-**Pollen's Profiling** is an innovative deep learning project that automates the classification of pollen grains using image processing and Convolutional Neural Networks (CNNs). This tool aims to support environmental monitoring, healthcare diagnosis, and agricultural research through precise and scalable image-based pollen identification.
-
----
-
-## 📌 Project Objectives
-
-- Develop an accurate image classification system using CNN for pollen grain images.
-- Facilitate real-world applications in ecology, allergy treatment, and agriculture.
-- Build a user-friendly Flask web application for model inference.
+This project focuses on building a **deep learning model for automated pollen grain classification** using image data. The classification is done using **Convolutional Neural Networks (CNNs)**, and the model is deployed using a **Flask web application** where users can upload an image and receive the predicted pollen type.
 
 ---
 
-## 🔍 Use Cases
+## 🎯 Objectives
 
-### 1. 🌍 Environmental Monitoring
-Automated pollen classification aids researchers in tracking biodiversity, pollen seasonality, and ecological trends efficiently and accurately.
-
-### 2. 🩺 Allergy Diagnosis and Treatment
-Healthcare professionals can use this tool to detect specific allergenic pollen types, enabling precise treatment and allergen immunotherapy planning.
-
-### 3. 🌾 Agricultural Research and Crop Management
-Agronomists can classify pollen grains from different crops, helping improve pollination strategies, breeding techniques, and crop yields.
+* Understand the morphological features of pollen grains.
+* Train a CNN model to classify pollen images into 23 classes.
+* Build a complete pipeline from dataset preprocessing to model deployment.
+* Use Flask to develop a simple web application interface.
 
 ---
 
-## 🧠 Technologies & Tools Used
+## 📁 Project Structure
 
-- Python
-- Jupyter Notebook
-- TensorFlow / Keras
-- OpenCV
-- Flask
-- HTML / CSS
-- Matplotlib / Seaborn
-- Scikit-learn
-- Anaconda
-- Visual Studio Code
-
----
-
-## 🗂️ Project Structure
-
-Pollen_Profiling/
-│
-├── static/
-│ └── styles.css
-├── templates/
-│ ├── index.html
-│ └── result.html
-│
-├── model/
-│ └── pollen_model.h5
-│
-├── dataset/
-│ └── [Pollen Images]
-│
-├── app.py
-├── model_training.ipynb
-├── requirements.txt
-└── README.md
-
-
----
-
-## 📥 Dataset
-
-- **Source**: [Kaggle - Brazilian Savannah Pollen Dataset](https://www.kaggle.com/)
-- **Contents**: X high-resolution images categorized into Y pollen grain types.
-- **Format**: JPEG, manually annotated by palynology experts.
-
----
-
-## 🧪 Model Architecture (CNN)
-
-```text
-Input -> Conv2D(16) -> MaxPool -> 
-       Conv2D(32) -> MaxPool -> 
-       Conv2D(64) -> MaxPool -> 
-       Conv2D(128) -> MaxPool ->
-       Flatten -> Dropout(0.2) ->
-       Dense(500) -> Dense(150) -> 
-       Dense(23, Softmax)
+```bash
+pollen-profiling/
+|
+├── dataset/                    # Contains 23 pollen grain classes with JPEG images
+|
+├── templates/                 # HTML files for Flask app
+│   └── index.html
+|
+├── static/                    # CSS and uploaded images
+│   └── style.css
+|
+├── model/                     # Saved trained model
+│   └── cnn_pollen_model.h5
+|
+├── app.py                     # Flask backend
+├── train_model.py             # CNN model training script
+├── requirements.txt           # Python dependencies
+├── README.md                  # Project documentation
+└── .gitignore
 ```
-Input Image Size: 128x128
-Activation: ReLU
 
-Output: 23 Classes
-
-Total Params: ~4.2M
 ---
-# 🛠️ Setup Instructions
-1️⃣ Clone the Repository
 
-git clone https://github.com/yourusername/Pollen-Profiling.git
-cd Pollen-Profiling
-# 2️⃣ Create Environment & Install Dependencies
+## 💡 Prior Knowledge & Concepts
 
-conda create -n pollen_env python=3.8
-conda activate pollen_env
+* **CNNs** for visual pattern recognition
+* **Flask** for backend web deployment
+* **OpenCV & NumPy** for image preprocessing
+* **Transfer learning** concepts (not used here but relevant)
+
+---
+
+## 🗂️ Dataset
+
+* Source: [Kaggle](https://www.kaggle.com/)
+* Region: Brazilian Savannah
+* Format: JPEG
+* Classes: 23 Pollen Types
+* Resolution: \~224x224 (after preprocessing)
+
+---
+
+## 🪑 Use Cases
+
+1. **Environmental Monitoring** - Automated analysis of ecological patterns via pollen data.
+2. **Allergy Diagnosis** - Identifying allergenic pollen types for treatment.
+3. **Agricultural Research** - Analyzing pollination patterns for better crop management.
+
+---
+
+## 💩 Data Preprocessing
+
+* Resize images to (128, 128)
+* Normalize pixel values by dividing by 255
+* One-hot encode labels
+* Split data into train/test (80/20)
+
+```python
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelEncoder
+from keras.utils import np_utils
+
+X = np.array(processed_images)
+y = LabelEncoder().fit_transform(class_labels)
+y = np_utils.to_categorical(y)
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+```
+
+---
+
+## 🏠 CNN Model Architecture
+
+```python
+model = Sequential([
+    Conv2D(16, kernel_size=(3, 3), activation='relu', input_shape=(128, 128, 3), padding='same'),
+    MaxPooling2D(pool_size=(2, 2)),
+
+    Conv2D(32, kernel_size=(2, 2), activation='relu', padding='same'),
+    MaxPooling2D(pool_size=(2, 2)),
+
+    Conv2D(64, kernel_size=(2, 2), activation='relu', padding='same'),
+    MaxPooling2D(pool_size=(2, 2)),
+
+    Conv2D(128, kernel_size=(2, 2), activation='relu', padding='same'),
+    MaxPooling2D(pool_size=(2, 2)),
+
+    Flatten(),
+    Dropout(0.2),
+    Dense(500, activation='relu'),
+    Dense(150, activation='relu'),
+    Dense(23, activation='softmax')
+])
+```
+
+* Optimizer: `adam`
+* Loss: `categorical_crossentropy`
+* Epochs: 20
+* Accuracy: \~92% on test set
+
+---
+
+## 📊 Training
+
+```python
+model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+history = model.fit(X_train, y_train, validation_data=(X_test, y_test), epochs=20, batch_size=32)
+model.save("model/cnn_pollen_model.h5")
+```
+
+---
+
+## 🌐 Flask Web App
+
+```python
+from flask import Flask, render_template, request
+import tensorflow as tf
+import numpy as np
+from tensorflow.keras.preprocessing import image
+import os
+
+app = Flask(__name__)
+model = tf.keras.models.load_model("model/cnn_pollen_model.h5")
+class_names = ["class_1", ..., "class_23"]
+
+@app.route("/", methods=["GET", "POST"])
+def index():
+    if request.method == "POST":
+        img_file = request.files["image"]
+        if img_file:
+            path = os.path.join("static", img_file.filename)
+            img_file.save(path)
+
+            img = image.load_img(path, target_size=(128, 128))
+            img_array = image.img_to_array(img) / 255.0
+            img_array = np.expand_dims(img_array, axis=0)
+
+            prediction = model.predict(img_array)
+            label = class_names[np.argmax(prediction)]
+
+            return render_template("index.html", label=label, image=path)
+
+    return render_template("index.html", label=None)
+
+if __name__ == "__main__":
+    app.run(debug=True)
+```
+
+---
+
+## 📄 templates/index.html
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pollen Classifier</title>
+</head>
+<body>
+    <h1>Upload a Pollen Image</h1>
+    <form method="POST" enctype="multipart/form-data">
+        <input type="file" name="image" required>
+        <input type="submit" value="Predict">
+    </form>
+
+    {% if label %}
+        <h2>Prediction: {{ label }}</h2>
+        <img src="{{ image }}" width="300">
+    {% endif %}
+</body>
+</html>
+```
+
+---
+
+## 📊 Evaluation
+
+* Validation Accuracy: \~92%
+* Avoided overfitting using Dropout layer
+* Balanced class distribution
+
+---
+
+## 💾 Requirements
+
+```txt
+tensorflow
+flask
+numpy
+opencv-python
+pillow
+scikit-learn
+```
+
+Install via:
+
+```bash
 pip install -r requirements.txt
-# 3️⃣ Run the Flask Application
-
-python app.py
-Open http://127.0.0.1:5000 in your browser.
-
-# 📊 Image Preprocessing & Augmentation
-
-def process_img(img, size=(128,128)):
-    img = cv2.resize(img, size)
-    return img / 255.0
-Images normalized to [0, 1]
-
-Label encoded using LabelEncoder and to_categorical
-
-Train/Test Split: 80/20
-
-📈 Training Summary
-Epochs: 50
-
-Batch Size: 32
-
-Loss Function: Categorical Crossentropy
-
-Optimizer: Adam
-
-Accuracy Achieved: ~95% on test data
-
-💾 Save and Load Model
-python
-# Save
-model.save('model/pollen_model.h5')
-
-# Load
-model = load_model('model/pollen_model.h5')
-🌐 Flask Web App
-Built with Flask and HTML/CSS.
-
-Upload image via browser and get prediction instantly.
-
-app.py
-python
-
-@app.route('/', methods=['GET', 'POST'])
-def predict():
-    if request.method == 'POST':
-        file = request.files['image']
-        img_path = os.path.join('static/uploads', file.filename)
-        file.save(img_path)
-
-        img = image.load_img(img_path, target_size=(128,128))
-        img_array = image.img_to_array(img) / 255.0
-        img_array = np.expand_dims(img_array, axis=0)
-
-        prediction = model.predict(img_array)
-        predicted_class = class_labels[np.argmax(prediction)]
-
-        return render_template('result.html', prediction=predicted_class, img_path=img_path)
-    return render_template('index.html')
-📸 UI Screenshots
-Upload Page: Select pollen image
-
-Result Page: Displays predicted pollen class and image
-
-📌 Future Enhancements
-Add support for multi-label classification
-
-Integrate Grad-CAM for visual explainability
-
-Build API endpoints for mobile integration
-
-Add real-time webcam classification
-
-🧑‍💻 Author
-Your Name
-GitHub | LinkedIn
-
-📃 License
-This project is licensed under the MIT License.
-
-📢 Acknowledgments
-Kaggle contributors for the dataset
-
-TensorFlow/Keras community
-
-OpenCV and Flask documentation
-
-⭐️ Don't forget to Star!
-If you like this project, give it a ⭐️ on GitHub!
-
+```
 
 ---
 
-Let me know if you'd like the code files (`app.py`, `model_training.ipynb`, or `HTML`) generated too!
+## 🚀 How to Run the Project
+
+```bash
+git clone https://github.com/navyasri0515/pollen-profiling-flask.git
+cd pollen-profiling-flask
+```
+
+1. Place dataset in `dataset/`.
+2. Run training:
+
+   ```bash
+   python train_model.py
+   ```
+3. Start the Flask app:
+
+   ```bash
+   python app.py
+   ```
+4. Open your browser at: [http://127.0.0.1:5000/](http://127.0.0.1:5000/)
+
+---
+
+## 📝 Conclusion
+
+This project showcases an end-to-end deep learning pipeline: dataset processing, CNN training, evaluation, and web deployment via Flask. The system allows real-time classification of pollen images for use in environmental, medical, and agricultural applications.
+
+---
+
+## 📧 Contact
+
+* **Name**: NAVYA SRI
+* **Email**: [navyasrichillapalli@gmail.com](mailto:navyasrichillapalli@gmail.com)
+* **GitHub**: [github.com/navyasri0515](https://github.com/navyasri0515)
