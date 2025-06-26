@@ -85,14 +85,14 @@ Input -> Conv2D(16) -> MaxPool ->
        Dense(500) -> Dense(150) -> 
        Dense(23, Softmax)
 Input Image Size: 128x128
-
+---
 Activation: ReLU
 
 Output: 23 Classes
 
 Total Params: ~4.2M
-
-🛠️ Setup Instructions
+---
+# 🛠️ Setup Instructions
 1️⃣ Clone the Repository
 
 git clone https://github.com/yourusername/Pollen-Profiling.git
