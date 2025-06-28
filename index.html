@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pollen Grain Classification</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">Pollen Classifier</div>
+        <div class="nav-links">
+            <a href="#about">About</a>
+            <a href="{{ url_for('predict') }}">Prediction</a>
+            <button id="toggle-theme" class="theme-toggle">🌓</button>
+        </div>
+    </nav>
+
+    <header class="hero-section">
+        <h1>Pollen Grain Prediction</h1>
+        <p>Upload a microscopic image to predict the type of pollen grain.<br>Ideal for botany, agriculture, and allergy research.</p>
+        <a href="{{ url_for('predict') }}" class="cta-button">Get Started</a>
+    </header>
+
+    <section id="about" class="about-section">
+        <h2>About Us</h2>
+        <p>This platform leverages deep learning to identify pollen grain types from microscopy images, aiding research and diagnostics.</p>
+    </section>
+
+    <script>
+        // Dark/light mode toggle
+        const toggleBtn = document.getElementById('toggle-theme');
+        toggleBtn.addEventListener('click', () => {
+            document.body.classList.toggle('light-mode');
+        });
+    </script>
+</body>
+</html>

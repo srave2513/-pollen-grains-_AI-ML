@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Predict Pollen Grain</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">Pollen Classifier</div>
+        <div class="nav-links">
+            <a href="{{ url_for('index') }}">Home</a>
+            <button id="toggle-theme" class="theme-toggle">🌓</button>
+        </div>
+    </nav>
+
+    <div class="upload-section animated-fade-in">
+        <h2>Upload a Pollen Grain Image</h2>
+        <form action="{{ url_for('predict') }}" method="POST" enctype="multipart/form-data" class="upload-form">
+            <label class="custom-file-upload">
+                <input type="file" name="file" required>
+                Choose File
+            </label>
+            <br>
+            <button type="submit" class="upload-button">🔍 Predict</button>
+        </form>
+
+        <h3>Or Try One of These</h3>
+        <div class="footer-images">
+            <div class="sample">
+                <img src="{{ url_for('static', filename='pollenGrain_images/image1.png') }}" alt="Sample 1">
+                <p>E. acervulina</p>
+            </div>
+            <div class="sample">
+                <img src="{{ url_for('static', filename='pollenGrain_images/image2.png') }}" alt="Sample 2">
+                <p>E. maxima</p>
+            </div>
+            <div class="sample">
+                <img src="{{ url_for('static', filename='pollenGrain_images/image3.png') }}" alt="Sample 3">
+                <p>E. necatrix</p>
+            </div>
+            <div class="sample">
+                <img src="{{ url_for('static', filename='pollenGrain_images/image4.jpg') }}" alt="Sample 4">
+                <p>E. tenella</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const toggleBtn = document.getElementById('toggle-theme');
+        toggleBtn.addEventListener('click', () => {
+            document.body.classList.toggle('light-mode');
+        });
+    </script>
+</body>
+</html>

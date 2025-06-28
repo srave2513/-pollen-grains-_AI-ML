@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Prediction Result</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .result-container {
+            text-align: center;
+            padding: 50px;
+            color: #ffffff;
+            background: linear-gradient(to bottom, #0f2027, #203a43, #2c5364);
+            min-height: 100vh;
+        }
+
+        .result-container h2 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .result-container p {
+            font-size: 1.3em;
+            margin-bottom: 20px;
+        }
+
+        .result-container img {
+            max-width: 300px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            background-color: #1e7e34;
+        }
+    </style>
+</head>
+<body>
+    <div class="result-container">
+        <h2>Predicted Class: {{ prediction }}</h2>
+        <p>Confidence: {{ confidence }}%</p>
+        <img src="{{ url_for('uploaded_file', filename=filename) }}" alt="Uploaded Image">
+        <br>
+        <a class="back-link" href="{{ url_for('predict') }}">← Try Another Image</a>
+    </div>
+</body>
+</html>
